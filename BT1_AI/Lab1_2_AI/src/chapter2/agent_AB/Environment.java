@@ -6,8 +6,12 @@ public class Environment {
 	public static final Action MOVE_LEFT = new DynamicAction("LEFT");
 	public static final Action MOVE_RIGHT = new DynamicAction("RIGHT");
 	public static final Action SUCK_DIRT = new DynamicAction("SUCK");
+	public static final Action MOVE_UP=new DynamicAction("UP");
+	public static final Action MOVE_DOWN =new DynamicAction("DOWN");
 	public static final String LOCATION_A = "A";
 	public static final String LOCATION_B = "B";
+	public static final String LOCATION_C= "C";
+	public static final String LOCATION_D="D";
 
 	public enum LocationState {
 		CLEAN, DIRTY
@@ -42,13 +46,15 @@ public class Environment {
 			envState.setAgentLocation(LOCATION_B);
 		}
 		return envState;
-
+		
 	}
+	//
 
 	// get percept<AgentLocation, LocationState> at the current location where agent
 	// is in.
 	public Percept getPerceptSeenBy() {
-
+		String agentLocation=envState.getAgentLocation();
+		LocationState locationstate=envState.getLocationState(agentLocation);
 		return null;
 	}
 
@@ -65,14 +71,25 @@ public class Environment {
 			isDone = true;// if both squares are clean, then agent do not need to do any action
 		es.display();
 	}
-
+		
 	public void step(int n) {
 		for (int i = 0; i < n; i++) {
 			step();
 			System.out.println("-------------------------");
 		}
 	}
-
+	public int countScore(Action action) {
+		int score=0;
+		if(action==SUCK_DIRT) {
+			score=score+500;
+		}else if(action==NoOpAction.NO_OP) {
+			score=score-100;
+		}else {
+			score=score-10;
+		}
+		return score;
+	}
+	
 	public void stepUntilDone() {
 		int i = 0;
 

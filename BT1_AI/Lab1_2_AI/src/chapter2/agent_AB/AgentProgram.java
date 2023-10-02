@@ -1,5 +1,7 @@
 package chapter2.agent_AB;
 
+import java.util.Random;
+
 import chapter2.agent_AB.Environment.LocationState;
 
 public class AgentProgram {
@@ -14,5 +16,21 @@ public class AgentProgram {
 		}
 		return NoOpAction.NO_OP;
 
+	}
+
+	public Action excute_2(Percept p) {
+		if (p.getLocationState() == LocationState.DIRTY) {
+			return Environment.SUCK_DIRT;
+
+		} else if (p.getLocationState() == LocationState.CLEAN) {
+			Action[] list = { Environment.MOVE_LEFT, Environment.MOVE_DOWN, Environment.MOVE_RIGHT,
+					Environment.MOVE_UP };
+			Random rd = new Random();
+			int i = rd.nextInt(4);
+			Action action = list[i];
+			return action;
+
+		}
+		return NoOpAction.NO_OP;
 	}
 }
